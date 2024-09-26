@@ -1,0 +1,8 @@
+server:
+  port: 8123
+  servlet:
+    context-path: /api
+xunapi:
+  client:
+    access-key: xunmao
+    secret-key: abcdefgh
