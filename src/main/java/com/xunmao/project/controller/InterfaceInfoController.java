@@ -3,10 +3,7 @@ package com.xunmao.project.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xunmao.project.annotation.AuthCheck;
-import com.xunmao.project.common.BaseResponse;
-import com.xunmao.project.common.DeleteRequest;
-import com.xunmao.project.common.ErrorCode;
-import com.xunmao.project.common.ResultUtils;
+import com.xunmao.project.common.*;
 import com.xunmao.project.constant.CommonConstant;
 import com.xunmao.project.exception.BusinessException;
 import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
@@ -14,8 +11,10 @@ import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
 import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
 import com.xunmao.project.model.entity.InterfaceInfo;
 import com.xunmao.project.model.entity.User;
+import com.xunmao.project.model.enums.InterfaceInfoStatusEnum;
 import com.xunmao.project.service.InterfaceInfoService;
 import com.xunmao.project.service.UserService;
+import com.xunmao.xunapiclientsdk.client.XunApiClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * 帖子接口
+ * 接口管理
  *
  * @author xunmao
  */
@@ -40,6 +39,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private XunApiClient xunApiClient;
 
     // region 增删改查
 
@@ -195,5 +197,68 @@ public class InterfaceInfoController {
     }
 
     // endregion
+
+    /**
+     * 发布
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+        if(idRequest == null || idRequest.getId() <= 0){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //判断该接口是否可以调用
+        com.xunmao.xunapiclientsdk.model.User user = new com.xunmao.xunapiclientsdk.model.User();
+        user.setUsername("test");
+        String username = xunApiClient.getUserNameByPost(user);
+        if(StringUtils.isBlank(username)){
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
+        }
+        //仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 下线
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+        if(idRequest == null || idRequest.getId() <= 0){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
 
 }
