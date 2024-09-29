@@ -106,6 +106,11 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.9</version>
         </dependency>
+        <dependency>
+            <groupId>com.xunmao</groupId>
+            <artifactId>xunapi-client-sdk</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -124,6 +129,27 @@
                 </configuration>
             </plugin>
         </plugins>
+<!--        <resources>-->
+<!--            &lt;!&ndash;检测mapper+xml，本项目数据访问层的SQL xml文件放在Java包中，而非resources下&ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/java/</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+<!--            &lt;!&ndash;检测resources目录下的yml文件以及xml文件&ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.properties</include>-->
+<!--                    &lt;!&ndash; 配置一下yml文件 &ndash;&gt;-->
+<!--                    <include>**/*.yml</include>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--                <filtering>false</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
     </build>
 
 </project>

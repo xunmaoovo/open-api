@@ -2,11 +2,13 @@ package com.xunmao.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import com.xunmao.project.annotation.AuthCheck;
 import com.xunmao.project.common.*;
 import com.xunmao.project.constant.CommonConstant;
 import com.xunmao.project.exception.BusinessException;
 import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoAddRequest;
+import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoInvokeRequest;
 import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
 import com.xunmao.project.model.dto.interfaceInfo.InterfaceInfoUpdateRequest;
 import com.xunmao.project.model.entity.InterfaceInfo;
@@ -259,6 +261,44 @@ public class InterfaceInfoController {
         interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
         boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 测试调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                      HttpServletRequest request) {
+        if(interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //如果接口关闭，则报错
+        if(oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue()){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
+        }
+
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        XunApiClient tempClient = new XunApiClient(accessKey,secretKey);
+
+        Gson gson = new Gson();
+        com.xunmao.xunapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.xunmao.xunapiclientsdk.model.User.class);
+        String userNameByPost = tempClient.getUserNameByPost(user);
+
+        return ResultUtils.success(userNameByPost);
     }
 
 }
