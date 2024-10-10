@@ -59,4 +59,5 @@ public class InterfaceInfoQueryRequest extends PageRequest implements Serializab
      * 创建人
      */
     private Long userId;
+    private static final long serialVersionID = 1L;
 }

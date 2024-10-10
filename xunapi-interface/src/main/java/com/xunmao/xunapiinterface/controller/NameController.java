@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/name")
 public class NameController {
 
-    @GetMapping("/")
+    @GetMapping("/get")
     public String getNameByGet(String name) {
         return "GET 你的名字是" + name;
     }
@@ -26,7 +26,7 @@ public class NameController {
      * @param name
      * @return
      */
-    @PostMapping("/")
+    @PostMapping("/post")
     public String getNameByPost(@RequestParam String name) {
         return "POST 你的名字是" + name;
     }
@@ -62,7 +62,8 @@ public class NameController {
         if(!sign.equals(serverSign)) {
             throw new RuntimeException("无权限");
         }
-        return "POST 用户名字是" + user.getUsername();
+        String result = "POST 用户名字是" + user.getUsername();
+        return result;
     }
 
 }

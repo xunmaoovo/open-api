@@ -46,4 +46,5 @@ public class InterfaceInfoAddRequest implements Serializable {
      * 请求类型
      */
     private String method;
+    private static final long serialVersionID = 1L;
 }
