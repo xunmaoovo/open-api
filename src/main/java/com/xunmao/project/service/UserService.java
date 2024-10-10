@@ -1,8 +1,9 @@
 package com.xunmao.project.service;
 
 
+
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xunmao.project.model.entity.User;
+import com.xunapi.xunapicommon.model.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 

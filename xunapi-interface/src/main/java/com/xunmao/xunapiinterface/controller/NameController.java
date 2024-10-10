@@ -39,29 +39,33 @@ public class NameController {
      */
     @PostMapping("/user")
     public String getUserNameByPost(@RequestBody User user, HttpServletRequest request) {
-        String accessKey = request.getHeader("accessKey");
-        String nonce = request.getHeader("nonce");
-        String timestamp = request.getHeader("timestamp");
-        String sign = request.getHeader("sign");
-        String body = request.getHeader("body");
-        // todo 实际情况是去数据库中查 是否已分配给用户
-        if(!accessKey.equals("xunmao")) {
-            throw new RuntimeException("无权限");
-        }
-        // todo 校验随机数 这里简单校验一下
-        if(Long.parseLong(nonce) > 10000) {
-            throw new RuntimeException("无权限");
-        }
-        // todo 校验时间戳 时间和当前时间不能超过一定值（比如五分钟
+//        String accessKey = request.getHeader("accessKey");
+//        String nonce = request.getHeader("nonce");
+//        String timestamp = request.getHeader("timestamp");
+//        String sign = request.getHeader("sign");
+//        String body = request.getHeader("body");
+//        // 实际情况是去数据库中查 是否已分配给用户
+//        if(!accessKey.equals("xunmao")) {
+//            throw new RuntimeException("无权限");
+//        }
+//        // 校验随机数 这里简单校验一下
+//        if(Long.parseLong(nonce) > 10000) {
+//            throw new RuntimeException("无权限");
+//        }
+//        // 校验时间戳 时间和当前时间不能超过一定值（比如五分钟
+//
+//        // secretKey 就是服务端签发的，所以知道是什么
+//        // 实际情况是从数据库中 查出 secretKey
+//        // 根据accessKey 查到用户的那一整条数据，包含secretKey
+//        String serverSign = SignUtils.genSign(body, "abcdefgh");
+//        // 如果传递过来的sign 和后端生成的 sign不一致
+//        if(!sign.equals(serverSign)) {
+//            throw new RuntimeException("无权限");
+//        }
 
-        // secretKey 就是服务端签发的，所以知道是什么
-        // todo 实际情况是从数据库中 查出 secretKey
-        // 根据accessKey 查到用户的那一整条数据，包含secretKey
-        String serverSign = SignUtils.genSign(body, "abcdefgh");
-        // 如果传递过来的sign 和后端生成的 sign不一致
-        if(!sign.equals(serverSign)) {
-            throw new RuntimeException("无权限");
-        }
+
+        //以上校验已经在网关层完成
+
         String result = "POST 用户名字是" + user.getUsername();
         return result;
     }

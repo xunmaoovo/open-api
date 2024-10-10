@@ -1,11 +1,11 @@
 package com.xunmao.project.aop;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.xunapi.xunapicommon.model.entity.User;
 import com.xunmao.project.annotation.AuthCheck;
 import com.xunmao.project.exception.BusinessException;
 import com.xunmao.project.service.UserService;
 import com.xunmao.project.common.ErrorCode;
-import com.xunmao.project.model.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

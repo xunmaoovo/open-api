@@ -1,10 +1,10 @@
 package com.xunmao.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xunmao.project.model.entity.User;
+import com.xunapi.xunapicommon.model.entity.User;
 
 /**
- * @Entity com.xunmao.project.model.domain.User
+ * @Entity com.xunapi.xunapicommon.model.entity.User
  */
 public interface UserMapper extends BaseMapper<User> {
 

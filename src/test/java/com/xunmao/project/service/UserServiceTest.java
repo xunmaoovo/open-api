@@ -1,6 +1,6 @@
 package com.xunmao.project.service;
 
-import com.xunmao.project.model.entity.User;
+import com.xunapi.xunapicommon.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

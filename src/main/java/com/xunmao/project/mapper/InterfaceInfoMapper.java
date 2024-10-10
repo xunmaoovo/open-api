@@ -1,7 +1,7 @@
 package com.xunmao.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xunmao.project.model.entity.InterfaceInfo;
+import com.xunapi.xunapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author 熏猫king

@@ -21,6 +21,11 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.xunmao</groupId>
+            <artifactId>xunapi-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
             <version>3.0.9</version>

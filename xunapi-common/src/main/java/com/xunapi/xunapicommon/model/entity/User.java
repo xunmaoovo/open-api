@@ -1,4 +1,4 @@
-package com.xunmao.project.model.entity;
+package com.xunapi.xunapicommon.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

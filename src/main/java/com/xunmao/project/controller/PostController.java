@@ -2,6 +2,7 @@ package com.xunmao.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xunapi.xunapicommon.model.entity.User;
 import com.xunmao.project.annotation.AuthCheck;
 import com.xunmao.project.common.BaseResponse;
 import com.xunmao.project.common.DeleteRequest;
@@ -13,7 +14,6 @@ import com.xunmao.project.model.dto.post.PostAddRequest;
 import com.xunmao.project.model.dto.post.PostQueryRequest;
 import com.xunmao.project.model.dto.post.PostUpdateRequest;
 import com.xunmao.project.model.entity.Post;
-import com.xunmao.project.model.entity.User;
 import com.xunmao.project.service.PostService;
 import com.xunmao.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;

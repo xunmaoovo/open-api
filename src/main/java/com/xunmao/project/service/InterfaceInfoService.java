@@ -1,7 +1,7 @@
 package com.xunmao.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xunmao.project.model.entity.InterfaceInfo;
+import com.xunapi.xunapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author 熏猫king
